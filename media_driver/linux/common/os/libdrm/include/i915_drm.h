@@ -1031,10 +1031,6 @@ struct drm_i915_gem_execbuffer2 {
  */
 #define I915_EXEC_RESOURCE_STREAMER     (1<<15)
 
-#ifdef ANDROID
-#define I915_EXEC_REQUEST_FENCE                (1<<25)
-#endif
-
 #define __I915_EXEC_UNKNOWN_FLAGS -(I915_EXEC_RESOURCE_STREAMER<<1)
 
 #define I915_EXEC_CONTEXT_ID_MASK    (0xffffffff)
