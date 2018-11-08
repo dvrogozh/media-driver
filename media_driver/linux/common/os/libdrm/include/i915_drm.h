@@ -651,12 +651,6 @@ struct drm_i915_gem_create {
     __u32 pad;
 #ifdef ANDROID
     __u32 flags;
-#define I915_CREATE_PLACEMENT_NORMAL    0 /* standard swappable bo  */
-#define I915_CREATE_PLACEMENT_STOLEN    1 /* Cannot use CPU mmaps */
-#define I915_CREATE_PLACEMENT_MASK      0xff
-#define I915_CREATE_POPULATE            (1<<8) /* Pre-populate object pages */
-#define I915_CREATE_FLUSH               (1<<9) /* Clflush prepopulated pages */
-#define __I915_CREATE_UNKNOWN_FLAGS     -(I915_CREATE_FLUSH << 1)
 #endif
 };
 
@@ -1036,10 +1030,6 @@ struct drm_i915_gem_execbuffer2 {
  *  the resource streamer.
  */
 #define I915_EXEC_RESOURCE_STREAMER     (1<<15)
-
-#ifdef ANDROID
-#define I915_EXEC_REQUEST_FENCE                (1<<25)
-#endif
 
 #define __I915_EXEC_UNKNOWN_FLAGS -(I915_EXEC_RESOURCE_STREAMER<<1)
 
