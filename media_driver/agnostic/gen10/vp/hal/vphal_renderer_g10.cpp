@@ -166,12 +166,18 @@ MOS_STATUS VphalRendererG10::AllocateRenderComponents(
 
 MOS_STATUS VphalRendererG10::InitKdllParam()
 {
-    MOS_STATUS eStatus = MOS_STATUS_SUCCESS;
+    MOS_STATUS eStatus = MOS_STATUS_UNIMPLEMENTED;
 
     // Set KDLL parameters (Platform dependent)
     pKernelDllRules         = g_KdllRuleTable_g10;
+#ifndef _FULL_OPEN_SOURCE
     pcKernelBin             = (const void*)IGVPKRN_G10;
     dwKernelBinSize         = IGVPKRN_G10_SIZE;
+    eStatus                 = MOS_STATUS_SUCCESS;
+#else
+    pcKernelBin             = NULL;
+    dwKernelBinSize         = 0;
+#endif
 
     return eStatus;
 }
