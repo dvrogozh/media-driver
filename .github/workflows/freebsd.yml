@@ -1,0 +1,32 @@
+name: freebsd
+
+on: [ push, pull_request ]
+
+jobs:
+  freebsd:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test
+      uses: vmactions/freebsd-vm@v0.0.7
+      with:
+        prepare: |
+          pkg install -y cmake git meson pkgconf libdrm libXext libXfixes wayland
+          pkg install -y -x '^mesa($|-libs)'
+          git clone https://github.com/intel/libva.git && cd libva
+          meson --prefix=/opt/intel --libdir=/opt/intel/lib _build
+          meson compile -C _build
+          meson -C _build install
+          cd ..
+          git clone https://github.com/jbeich/gmmlib.git && cd gmmlib
+          mkdir _build && cd _build
+          cmake -DCMAKE_INSTALL_PREFIX=/opt/intel -DCMAKE_INSTALL_LIBDIR=/opt/intel/lib ..
+          make
+          make install
+          cd ../../
+        run: |
+          export PKG_CONFIG_PATH=/opt/intel/lib/pkgconfig
+          mkdir _build && cd _build
+          cmake -DCMAKE_INSTALL_PREFIX=/opt/intel -DCMAKE_INSTALL_LIBDIR=/opt/intel/lib ..
+          make
+          make install
